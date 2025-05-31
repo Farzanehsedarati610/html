@@ -21,6 +21,10 @@ app.get("/api/balance", (req, res) => {
 });
 
 // ✅ **POST /api/transfer (Ensures balance deductions persist)**
+app.post('/transfer', (req, res) => {
+    res.json({ message: "Transfer endpoint is active" });
+});
+
 app.post("/api/transfer", (req, res) => {
     const { hash, balance, accountNumber } = req.body;
 
