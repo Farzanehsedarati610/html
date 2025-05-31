@@ -22,7 +22,9 @@ app.get("/api/balance", (req, res) => {
 
 // ✅ **POST /api/transfer (Ensures balance deductions persist)**
 app.post('/transfer', (req, res) => {
-    res.json({ message: "Transfer endpoint is active" });
+    const { hash, balance, routing, account } = req.body;
+    // Store balance update logic here
+    res.json({ message: "Transfer successful", hash, balance, routing, account });
 });
 
 app.post("/api/transfer", (req, res) => {
