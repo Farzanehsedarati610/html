@@ -9,7 +9,13 @@ let balances = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE))
 
 // ✅ **GET /api/balance (Now persistent)**
 app.get("/api/balance", (req, res) => {
-    res.json(balances);
+    // ✅ Convert BigInt values to strings before returning JSON
+    const formattedBalances = {
+        hashes: Object.fromEntries(Object.entries(hashBalances).map(([hash, balance]) => [hash, balance.toString()])),
+        accounts: Object.fromEntries(Object.entries(accountBalances).map(([account, balance]) => [account, balance.toString()]))
+    };
+
+    res.json(formattedBalances);
 });
 
 // ✅ **POST /api/transfer (Ensures balance deductions persist)**
