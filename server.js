@@ -20,9 +20,8 @@ app.post("/api/transfer", (req, res) => {
     balances.accounts[accountNumber] = (balances.accounts[accountNumber] || BigInt(0)) + BigInt(balance);
 
     fs.writeFileSync(DATA_FILE, JSON.stringify(balances)); // Save updates to file
-
+    res.json({ status: "Transfer successfull", hash, balance, accountNumber });
     console.log(`[TRANSFER SUCCESS] $${balance} from ${hash} → ${accountNumber}`);
-    res.json({ status: "Transfer successful", hash, balance, accountNumber });
     console.log(`[TRANSFER SUCCESS] $${balance} from ${hash} → ${accountNumber}`);
     console.log(`Updated balance for ${hash}: ${balances.hashes[hash]}`);
     console.log(`Updated balance for ${accountNumber}: ${balances.accounts[accountNumber]}`);
