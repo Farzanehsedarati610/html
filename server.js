@@ -2,11 +2,16 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-// Simulated balance database
-let accountBalances = {}; // Stores balance for each account
-let hashBalances = {}; // Tracks hash value balances
+// Simulated database for balances
+let accountBalances = {}; // Tracks balance per account
+let hashBalances = {}; // Stores balance per hash
 
-// Process Transfer Request
+// ✅ **Fix: Get balances properly**
+app.get("/api/balance", (req, res) => {
+    res.json({ hashes: hashBalances, accounts: accountBalances });
+});
+
+// ✅ **Fix: Transfer logic with correct deductions**
 app.post("/api/transfer", (req, res) => {
     const { hash, balance, accountNumber, routingNumber } = req.body;
 
@@ -18,23 +23,15 @@ app.post("/api/transfer", (req, res) => {
         return res.status(400).json({ status: "ERROR", reason: "Insufficient funds." });
     }
 
-    // Log the transaction details before executing the transfer
-    console.log(`[TRANSACTION] Transfer: $${balance} from ${hash} → Account ${accountNumber} (Routing ${routingNumber})`);
-
-    // Process the transfer
+    // ✅ **Deduct balance from hash & add to account**
     hashBalances[hash] -= BigInt(balance);
     accountBalances[accountNumber] += BigInt(balance);
 
-    console.log(`[SUCCESS] Transfer successful: $${balance} → Account ${accountNumber}`);
-
+    console.log(`[TRANSFER SUCCESS] $${balance} from ${hash} → ${accountNumber}`);
     res.json({ status: "Transfer successful", hash, balance, accountNumber });
 });
-app.get("/api/balance", (req, res) => {
-    res.json({ hashes: hashBalances, accounts: accountBalances });
-});
-    console.log(`Updated balance for ${hash}: ${hashBalances[hash]}`);
-    console.log(`Updated balance for ${accountNumber}: ${accountBalances[accountNumber]}`);
 
-
-app.listen(3000, () => console.log("Transaction service running on port 3000"));
+// ✅ **Ensure server runs correctly**
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Transaction service running on port ${PORT}`));
 
