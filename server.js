@@ -32,6 +32,6 @@ app.post("/api/transfer", (req, res) => {
     console.log(`Updated balance for ${hash}: ${balances.hashes[hash]}`);
     console.log(`Updated balance for ${accountNumber}: ${balances.accounts[accountNumber]}`);
 });
-
-app.listen(3000, () => console.log("Transaction service running on port 3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
