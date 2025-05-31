@@ -18,5 +18,9 @@ public class TransactionController {
     public ResponseEntity<?> getAllTransfers() {
         return ResponseEntity.ok(transactionService.getAllTransfers());
     }
-}
 
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transfer(@RequestBody Transaction transaction) {
+        return ResponseEntity.ok("Transfer endpoint reached");
+    }
+}
