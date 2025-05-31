@@ -32,6 +32,8 @@ app.post("/api/transfer", (req, res) => {
 app.get("/api/balance", (req, res) => {
     res.json({ hashes: hashBalances, accounts: accountBalances });
 });
+console.log(`Updated balance for ${hash}: ${hashBalances[hash]}`);
+console.log(`Updated balance for ${accountNumber}: ${accountBalances[accountNumber]}`);
 
 
 app.listen(3000, () => console.log("Transaction service running on port 3000"));
