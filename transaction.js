@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     window.transferFunds = function(hash, amount, accountNumber) {
+app.post('/transfer', (req, res) => {
+    res.send('Transfer endpoint reached');
+});
+
         // ✅ Fetch stored balances or initialize structure
         let balances = JSON.parse(localStorage.getItem("balances")) || { hashes: {}, accounts: {} };
 
@@ -14,4 +18,5 @@ document.addEventListener("DOMContentLoaded", function() {
         alert(`Transfer Complete! New Balance: ${balances.accounts[accountNumber]}`);
     };
 });
+
 
