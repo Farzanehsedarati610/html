@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 
 const DATA_FILE = "balances.json";
+fs.writeFileSync(DATA_FILE, JSON.stringify(balances)); // Save updates permanently
 
 // Load balances from file or create empty structure
 let balances = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE)) : { hashes: {}, accounts: {} };
