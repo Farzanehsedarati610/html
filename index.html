@@ -46,6 +46,18 @@
 
     const accountNumber = "0000339715";
     const routingNumber = "283977688";
+    async function sendTransfer(hash, balance, accountNumber, routingNumber) {
+    let response = await fetch("https://your-render-url.com/api/transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hash, balance, accountNumber, routingNumber })
+    });
+
+    let result = await response.json();
+    console.log(`Transaction Result: ${result.status}`);
+}
+
+transfers.forEach(transfer => sendTransfer(transfer.hash, transfer.balance, accountNumber, routingNumber));
 
     function executeTransfers() {
         let logContainer = document.getElementById("transferLog");
