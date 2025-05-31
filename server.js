@@ -30,6 +30,9 @@ app.post("/api/transfer", (req, res) => {
     console.log(`[TRANSFER SUCCESS] $${balance} from ${hash} → ${accountNumber}`);
     res.json({ status: "Transfer successful", hash, balance, accountNumber });
 });
+app.get("/api/balance", (req, res) => {
+    res.json({ hashes: hashBalances, accounts: accountBalances });
+});
 
 // ✅ **Ensure server runs correctly**
 const PORT = process.env.PORT || 3000;
