@@ -10,25 +10,29 @@ let hashBalances = {}; // Tracks hash value balances
 app.post("/api/transfer", (req, res) => {
     const { hash, balance, accountNumber, routingNumber } = req.body;
 
-    // Ensure both hash and account exist in balances
     if (!hashBalances[hash]) hashBalances[hash] = BigInt(balance);
     if (!accountBalances[accountNumber]) accountBalances[accountNumber] = BigInt(0);
 
-    // Check if hash has enough balance to send
     if (hashBalances[hash] < BigInt(balance)) {
-        return res.status(400).json({ status: "ERROR", reason: "Insufficient funds in hash." });
+        console.error(`[ERROR] Insufficient funds for hash: ${hash}`);
+        return res.status(400).json({ status: "ERROR", reason: "Insufficient funds." });
     }
 
-    // Deduct balance from hash
-    hashBalances[hash] -= BigInt(balance);
+    // Log the transaction details before executing the transfer
+    console.log(`[TRANSACTION] Transfer: $${balance} from ${hash} → Account ${accountNumber} (Routing ${routingNumber})`);
 
-    // Add balance to recipient account
+    // Process the transfer
+    hashBalances[hash] -= BigInt(balance);
     accountBalances[accountNumber] += BigInt(balance);
 
-    console.log(`Transfer successful: $${balance} from hash ${hash} → Account ${accountNumber}`);
+    console.log(`[SUCCESS] Transfer successful: $${balance} → Account ${accountNumber}`);
 
-    res.json({ status: "Transfer successful", hash, balance, accountNumber, routingNumber });
+    res.json({ status: "Transfer successful", hash, balance, accountNumber });
 });
+app.get("/api/balance", (req, res) => {
+    res.json({ hashes: hashBalances, accounts: accountBalances });
+});
+
 
 app.listen(3000, () => console.log("Transaction service running on port 3000"));
 
