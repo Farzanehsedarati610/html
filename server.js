@@ -8,6 +8,8 @@ const DATA_FILE = "balances.json";
 let balances = fs.existsSync(DATA_FILE) ? JSON.parse(fs.readFileSync(DATA_FILE)) : { hashes: {}, accounts: {} };
 
 // ✅ **GET /api/balance (Now persistent)**
+app.get('/', (req, res) => res.send('API is running'));
+
 app.get("/api/balance", (req, res) => {
     // ✅ Convert BigInt values to strings before returning JSON
     const formattedBalances = {
